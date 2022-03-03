@@ -1,0 +1,6 @@
+.games {
+  width: 60vw;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}

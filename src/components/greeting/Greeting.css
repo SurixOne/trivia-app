@@ -1,0 +1,10 @@
+.greeting-name {
+  color: rgb(255, 196, 0);
+  font-weight: bold;
+}
+
+.greeting {
+  color: rgb(206, 200, 255);
+  margin-right: 30px;
+  margin-top: 30px;
+}
