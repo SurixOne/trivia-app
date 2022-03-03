@@ -11,7 +11,7 @@ function Question() {
   const trivia = useSelector((state) => state.game.trivia);
   const currentQuestion = useSelector((state) => state.game.currentQuestion);
   const totalQuestions = useSelector(
-    (state) => state.game.trivia.questions.length
+    (state) => state.game.trivia?.questions?.length
   );
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const handleAnswerClick = (ans) => {
@@ -33,7 +33,6 @@ function Question() {
   };
   const handleBtnClick = () => {
     dispatch(gameActions.answer(selectedAnswer));
-    //dispatch reset
     dispatch(gameActions.setTitle(titles.SCORE));
   };
   const greenBtnTitle = "Finish";

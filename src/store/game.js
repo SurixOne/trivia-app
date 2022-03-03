@@ -91,7 +91,7 @@ const initialGameState = {
   level: "",
   points: 0,
   triviaList: initialTriviaList,
-  trivia: {},
+  trivia: { questions: [] },
   currentQuestion: 0,
   title: titles.GAME,
   answers: [],
@@ -132,7 +132,7 @@ const gameReducer = createSlice({
       state.answers.push(action.payload);
     },
     reset(state) {
-      // set points,
+      // reset
     },
   },
 });

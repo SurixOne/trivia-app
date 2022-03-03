@@ -30,7 +30,7 @@ function FinalScore() {
           Congratulations <b>{name}</b>!
         </div>
         <div>
-          You answered {getRightAnswers()}/{trivia.questions.length}
+          You answered {getRightAnswers()}/{trivia?.questions?.length}
         </div>
       </div>
       <GreenButton
