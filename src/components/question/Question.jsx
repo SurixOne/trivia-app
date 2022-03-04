@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { titles } from "../../constants/constants";
-import { gameActions } from "../../store/game";
+import {
+  gameActions,
+  questionSelector,
+  totalQuestionsSelector,
+  triviaSelector,
+} from "../../store/game";
 import GreenButton from "../greenButton/GreenButton";
 import "./Question.css";
 
 function Question() {
   const dispatch = useDispatch();
-  const trivia = useSelector((state) => state.game.trivia);
-  const currentQuestion = useSelector((state) => state.game.currentQuestion);
-  const totalQuestions = useSelector(
-    (state) => state.game.trivia?.questions?.length
-  );
+  const trivia = useSelector(triviaSelector);
+  const currentQuestion = useSelector(questionSelector);
+  const totalQuestions = useSelector(totalQuestionsSelector);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const handleAnswerClick = (ans) => {
     setSelectedAnswer(ans);
@@ -41,15 +44,9 @@ function Question() {
     <div>
       <div className='question-wrapper' style={{ position: "relative" }}>
         <div
+          className='question-image'
           style={{
             backgroundImage: "url('" + question.imageUrl + "')",
-            position: "absolute",
-            filter: "opacity(0.3) blur(2px) drop-shadow(2px 4px 6px black)",
-            width: "100%",
-            height: "100%",
-            left: "0",
-            top: "0",
-            backgroundSize: "cover",
           }}
         />
         <div className='question'>{question.description}</div>

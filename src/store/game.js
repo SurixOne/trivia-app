@@ -1,100 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { titles } from "../constants/constants";
-const initialTriviaList = [
-  {
-    description: "MOVIE",
-    questions: [
-      {
-        description:
-          "What happens with the antagonist at the end of the movie Ghost?",
-        answers: [
-          "Gets taken by dark spirits",
-          "Regrets from what he did to his friend",
-          "Donates the money he took to charity",
-          "Gets the paycheck from the nuns",
-        ],
-        rightAnswerPosition: 0,
-        imageUrl:
-          "https://i.pinimg.com/originals/5b/d4/9a/5bd49aa701879e18ac54a0f0c1a3013a.jpg",
-      },
-      {
-        description:
-          "Who impersonated the Joker on the last movie of the same name on October of 2019?",
-        answers: [
-          "Heath Ledger",
-          "Jared Leto",
-          "Jack Nicholson",
-          "Joaquin Phoenix",
-        ],
-        rightAnswerPosition: 3,
-        imageUrl:
-          "https://cutewallpaper.org/21/joaquin-phoenix-joker-wallpapers/give-joaquin-phoenix-an-oscar-already-More-Joker-phone-.png",
-      },
-    ],
-  },
-  {
-    description: "GEOGRAPHY",
-    questions: [
-      {
-        description:
-          "What is the name of the actor who impersonated the Joker on the last movie of the same name on October of 2019?",
-        answers: [
-          "Heath Ledger",
-          "Jared Leto",
-          "Jack Nicholson",
-          "Joaquin Phoenix",
-        ],
-        rightAnswerPosition: 3,
-        imageUrl:
-          "https://ichef.bbci.co.uk/news/640/cpsprodpb/1728D/production/_109616849_joker01.jpg",
-      },
-    ],
-  },
-  {
-    description: "HISTORY",
-    questions: [
-      {
-        description:
-          "What is the name of the actor who impersonated the Joker on the last movie of the same name on October of 2019?",
-        answers: [
-          "Heath Ledger",
-          "Jared Leto",
-          "Jack Nicholson",
-          "Joaquin Phoenix",
-        ],
-        rightAnswerPosition: 3,
-        imageUrl:
-          "https://ichef.bbci.co.uk/news/640/cpsprodpb/1728D/production/_109616849_joker01.jpg",
-      },
-    ],
-  },
-  {
-    description: "VIDEOGAMES",
-    questions: [
-      {
-        description:
-          "What is the name of the actor who impersonated the Joker on the last movie of the same name on October of 2019?",
-        answers: [
-          "Heath Ledger",
-          "Jared Leto",
-          "Jack Nicholson",
-          "Joaquin Phoenix",
-        ],
-        rightAnswerPosition: 3,
-        imageUrl:
-          "https://ichef.bbci.co.uk/news/640/cpsprodpb/1728D/production/_109616849_joker01.jpg",
-      },
-    ],
-  },
-];
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { fetchTrivia } from "../api/triviaAPI";
+import { levels, titles } from "../constants/constants";
+
+export const fetchTriviaByLevel = createAsyncThunk(
+  "trivia/fetchTriviaByLevel",
+  async (triviaLevel) => {
+    const response = await fetchTrivia();
+    return response.data.filter((level) => level.level === triviaLevel);
+  }
+);
+
+export const triviaSelector = (state) => state.game.trivia;
+export const questionSelector = (state) => state.game.currentQuestion;
+export const totalQuestionsSelector = (state) =>
+  state.game.trivia.questions.length;
+export const answersSelector = (state) => state.game.answers;
+export const titleSelector = (state) => state.game.title;
+export const triviaListSelector = (state) => state.game.triviaList;
+export const levelSelector = (state) => state.game.level;
+
 const initialGameState = {
   level: "",
-  points: 0,
-  triviaList: initialTriviaList,
+  triviaList: [],
   trivia: { questions: [] },
   currentQuestion: 0,
   title: titles.GAME,
   answers: [],
+  triviaListState: {
+    error: false,
+    loading: false,
+  },
 };
 
 const gameReducer = createSlice({
@@ -103,12 +38,6 @@ const gameReducer = createSlice({
   reducers: {
     setLevel(state, action) {
       state.level = action.payload;
-    },
-    increasePoints(state, action) {
-      state.points += action.payload;
-    },
-    decreasePoints(state, action) {
-      state.points -= action.payload;
     },
     setTrivia(state, action) {
       const trivia = state.triviaList[action.payload];
@@ -132,8 +61,24 @@ const gameReducer = createSlice({
       state.answers.push(action.payload);
     },
     reset(state) {
-      // reset
+      return { ...initialGameState, level: state.level };
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTriviaByLevel.pending, (state) => {
+      state.triviaListState.loading = true;
+      state.triviaListState.error = false;
+    });
+    builder.addCase(fetchTriviaByLevel.fulfilled, (state, action) => {
+      const data = action.payload;
+      state.triviaListState.loading = false;
+      state.triviaListState.error = false;
+      state.triviaList = data[0].games;
+    });
+    builder.addCase(fetchTriviaByLevel.rejected, (state) => {
+      state.triviaListState.loading = false;
+      state.triviaListState.error = true;
+    });
   },
 });
 

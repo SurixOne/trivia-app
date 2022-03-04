@@ -1,10 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchTriviaByLevel,
+  levelSelector,
+  triviaListSelector,
+} from "../../store/game";
 import Game from "../game/Game";
 import "./Games.css";
 
 function Games() {
-  const games = useSelector((state) => state.game.triviaList);
+  const dispatch = useDispatch();
+  const level = useSelector(levelSelector);
+  const games = useSelector(triviaListSelector);
+
+  useEffect(() => {
+    dispatch(fetchTriviaByLevel(level));
+  }, []);
 
   return (
     <div className='games'>
