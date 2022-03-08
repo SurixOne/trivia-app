@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { levels } from "../../constants/constants";
 import { gameActions } from "../../store/game";
 import { userActions } from "../../store/user";
-import LevelSelector from "../levelSelector/LevelSelector";
+import LevelInput from "../levelInput/LevelInput";
 import "./Welcome.css";
 
 function Welcome() {
@@ -10,14 +11,14 @@ function Welcome() {
 
   const [name, setName] = useState("");
 
-  const [level, setLevel] = useState("Beginner");
+  const [level, setLevel] = useState(0);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
 
   const handleLevelChange = (event) => {
-    setLevel(event.target.value);
+    setLevel(levels.indexOf(event.target.value));
   };
 
   const handleSubmit = (event) => {
@@ -52,7 +53,7 @@ function Welcome() {
               onChange={handleNameChange}
             />
           </label>
-          <LevelSelector level={level} handleLevelChange={handleLevelChange} />
+          <LevelInput level={level} handleLevelChange={handleLevelChange} />
         </div>
         <div className='btn-wrapper'>
           <input className='form-btn' type='submit' value='start' />

@@ -3,3 +3,12 @@ export const titles = {
   QUESTION: "QUESTION",
   SCORE: "FINAL SCORE",
 };
+
+export const levels = {
+  BEGINNER: "Beginner",
+  INTERMEDIATE: "Intermediate",
+  EXPERT: "Expert",
+  GODLIKE: "▁▂▄▅▆█ godlike █▆▅▄▂▁",
+};
+
+export const loadingText = "Loading...";

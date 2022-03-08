@@ -1,14 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { titles } from "../../constants/constants";
+import {
+  questionSelector,
+  titleSelector,
+  totalQuestionsSelector,
+} from "../../store/game";
 import "./Title.css";
 
 function Title() {
-  const title = useSelector((state) => state.game.title);
-  const currentQuestion = useSelector((state) => state.game.currentQuestion);
-  const totalQuestions = useSelector(
-    (state) => state.game.trivia?.questions?.length
-  );
+  const title = useSelector(titleSelector);
+  const currentQuestion = useSelector(questionSelector);
+  const totalQuestions = useSelector(totalQuestionsSelector);
   return (
     <div className='title'>
       {title +

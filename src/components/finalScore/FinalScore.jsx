@@ -1,24 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { answersSelector, gameActions, triviaSelector } from "../../store/game";
+import { nameSelector } from "../../store/user";
 import GreenButton from "../greenButton/GreenButton";
 import "./FinalScore.css";
 
 function FinalScore() {
-  const name = useSelector((state) => state.user.name);
-  const answers = useSelector((state) => state.game.answers);
-  const trivia = useSelector((state) => state.game.trivia);
+  const dispatch = useDispatch();
+  const name = useSelector(nameSelector);
+  const answers = useSelector(answersSelector);
+  const trivia = useSelector(triviaSelector);
   const greenBtnTitle = "Play another";
   const handleBtnClick = () => {
-    //real reset
+    dispatch(gameActions.reset());
   };
   const getRightAnswers = () => {
     let rightAnswersCounter = 0;
-    trivia.questions.forEach((question, index) => {
-      question.answers.forEach((ans, i) => {
-        if (ans == answers[index] && i == question.rightAnswerPosition) {
-          rightAnswersCounter++;
-        }
-      });
+    trivia?.questions.forEach((question, index) => {
+      if (answers[index] == question.rightAnswerPosition) {
+        rightAnswersCounter++;
+      }
     });
     return rightAnswersCounter;
   };

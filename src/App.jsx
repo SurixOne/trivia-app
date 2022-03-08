@@ -3,19 +3,20 @@ import Welcome from "./components/welcome/Welcome";
 import { useSelector } from "react-redux";
 import Games from "./components/games/Games";
 import Greeting from "./components/greeting/Greeting";
-import LevelSelector from "./components/levelSelector/LevelSelector";
 import { useDispatch } from "react-redux";
-import { gameActions } from "./store/game";
+import { gameActions, levelSelector, titleSelector } from "./store/game";
 import Title from "./components/title/Title";
 import { titles } from "./constants/constants";
 import Question from "./components/question/Question";
 import FinalScore from "./components/finalScore/finalScore";
+import { isLoggedInSelector } from "./store/user";
+import LevelInput from "./components/levelInput/LevelInput";
 
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const level = useSelector((state) => state.game.level);
-  const title = useSelector((state) => state.game.title);
+  const isLoggedIn = useSelector(isLoggedInSelector);
+  const level = useSelector(levelSelector);
+  const title = useSelector(titleSelector);
   const handleLevelChange = (event) => {
     dispatch(gameActions.setLevel(event.target.value));
   };
@@ -25,7 +26,7 @@ function App() {
       {isLoggedIn ? (
         <>
           <div className='header'>
-            <LevelSelector
+            <LevelInput
               level={level}
               handleLevelChange={handleLevelChange}
               isLoggedIn={isLoggedIn}

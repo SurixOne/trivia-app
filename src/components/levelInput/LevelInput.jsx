@@ -1,13 +1,8 @@
 import React from "react";
-import "./LevelSelector.css";
+import { levels } from "../../constants/constants";
+import "./LevelInput.css";
 
-function LevelSelector({ level, handleLevelChange, isLoggedIn }) {
-  const levels = [
-    "Beginner",
-    "Intermediate",
-    "Expert",
-    "▁▂▄▅▆█ godlike █▆▅▄▂▁",
-  ];
+function LevelInput({ level, handleLevelChange, isLoggedIn }) {
   return (
     <div>
       <label>
@@ -18,7 +13,7 @@ function LevelSelector({ level, handleLevelChange, isLoggedIn }) {
           value={level}
           onChange={handleLevelChange}
         >
-          {levels.map((lvl) => (
+          {Object.values(levels).map((lvl) => (
             <option key={lvl}>{lvl}</option>
           ))}
         </select>
@@ -27,4 +22,4 @@ function LevelSelector({ level, handleLevelChange, isLoggedIn }) {
   );
 }
 
-export default LevelSelector;
+export default LevelInput;

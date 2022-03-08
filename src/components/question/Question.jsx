@@ -2,37 +2,43 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { titles } from "../../constants/constants";
-import { gameActions } from "../../store/game";
+import {
+  gameActions,
+  questionSelector,
+  totalQuestionsSelector,
+  triviaSelector,
+} from "../../store/game";
 import GreenButton from "../greenButton/GreenButton";
 import "./Question.css";
 
 function Question() {
   const dispatch = useDispatch();
-  const trivia = useSelector((state) => state.game.trivia);
-  const currentQuestion = useSelector((state) => state.game.currentQuestion);
-  const totalQuestions = useSelector(
-    (state) => state.game.trivia?.questions?.length
-  );
-  const [selectedAnswer, setSelectedAnswer] = useState("");
-  const handleAnswerClick = (ans) => {
-    setSelectedAnswer(ans);
+  const trivia = useSelector(triviaSelector);
+  const currentQuestion = useSelector(questionSelector);
+  const totalQuestions = useSelector(totalQuestionsSelector);
+  const [selectedAnswerId, setSelectedAnswerId] = useState("");
+  const handleAnswerClick = (ansId) => {
+    setSelectedAnswerId(ansId);
   };
   const question = trivia.questions[currentQuestion - 1];
   const goBack = () => {
     if (currentQuestion > 0) {
       dispatch(gameActions.prevQuestion());
-      setSelectedAnswer("");
+      setSelectedAnswerId("");
     }
   };
   const goNext = () => {
-    if (selectedAnswer != "" && currentQuestion < totalQuestions) {
-      dispatch(gameActions.answer(selectedAnswer));
+    if (
+      question.answers[selectedAnswerId] != "" &&
+      currentQuestion < totalQuestions
+    ) {
+      dispatch(gameActions.answer(selectedAnswerId));
       dispatch(gameActions.nextQuestion());
-      setSelectedAnswer("");
+      setSelectedAnswerId("");
     }
   };
   const handleBtnClick = () => {
-    dispatch(gameActions.answer(selectedAnswer));
+    dispatch(gameActions.answer(selectedAnswerId));
     dispatch(gameActions.setTitle(titles.SCORE));
   };
   const greenBtnTitle = "Finish";
@@ -41,26 +47,23 @@ function Question() {
     <div>
       <div className='question-wrapper' style={{ position: "relative" }}>
         <div
+          className='question-image'
           style={{
             backgroundImage: "url('" + question.imageUrl + "')",
-            position: "absolute",
-            filter: "opacity(0.3) blur(2px) drop-shadow(2px 4px 6px black)",
-            width: "100%",
-            height: "100%",
-            left: "0",
-            top: "0",
-            backgroundSize: "cover",
           }}
         />
         <div className='question'>{question.description}</div>
-        {question.answers.map((ans) => {
+        {question.answers.map((ans, index) => {
           return (
             <div
               key={ans}
               className={
-                "answer" + (ans == selectedAnswer ? " selected-ans" : "")
+                "answer" +
+                (ans == question.answers[selectedAnswerId]
+                  ? " selected-ans"
+                  : "")
               }
-              onClick={() => handleAnswerClick(ans)}
+              onClick={() => handleAnswerClick(index)}
             >
               {ans}
             </div>
@@ -79,12 +82,13 @@ function Question() {
           )}
         </div>
       </div>
-      {currentQuestion == totalQuestions && selectedAnswer != "" && (
-        <GreenButton
-          greenBtnTitle={greenBtnTitle}
-          handleBtnClick={handleBtnClick}
-        />
-      )}
+      {currentQuestion == totalQuestions &&
+        question.answers[selectedAnswerId] != "" && (
+          <GreenButton
+            greenBtnTitle={greenBtnTitle}
+            handleBtnClick={handleBtnClick}
+          />
+        )}
     </div>
   );
 }
