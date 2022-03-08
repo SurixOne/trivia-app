@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export const fetchTrivia = () => {
-  return axios.get("http://localhost:4000/levels");
+export const fetchTrivia = (level) => {
+  return axios.get("http://localhost:4000/levels/" + level);
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { levels } from "../../constants/constants";
 import { gameActions } from "../../store/game";
 import { userActions } from "../../store/user";
 import LevelInput from "../levelInput/LevelInput";
@@ -10,14 +11,14 @@ function Welcome() {
 
   const [name, setName] = useState("");
 
-  const [level, setLevel] = useState("Beginner");
+  const [level, setLevel] = useState(0);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
 
   const handleLevelChange = (event) => {
-    setLevel(event.target.value);
+    setLevel(levels.indexOf(event.target.value));
   };
 
   const handleSubmit = (event) => {

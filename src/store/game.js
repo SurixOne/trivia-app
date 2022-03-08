@@ -4,25 +4,27 @@ import { levels, titles } from "../constants/constants";
 
 export const fetchTriviaByLevel = createAsyncThunk(
   "trivia/fetchTriviaByLevel",
-  async (triviaLevel) => {
-    const response = await fetchTrivia();
-    return response.data.filter((level) => level.level === triviaLevel);
+  async (level) => {
+    const response = await fetchTrivia(level);
+    return response.data;
   }
 );
 
-export const triviaSelector = (state) => state.game.trivia;
+export const triviaSelector = (state) =>
+  state.game.triviaList[state.game.selectedTriviaId];
 export const questionSelector = (state) => state.game.currentQuestion;
 export const totalQuestionsSelector = (state) =>
-  state.game.trivia.questions.length;
+  state.game.triviaList[state.game.selectedTriviaId]?.questions.length;
 export const answersSelector = (state) => state.game.answers;
 export const titleSelector = (state) => state.game.title;
 export const triviaListSelector = (state) => state.game.triviaList;
 export const levelSelector = (state) => state.game.level;
+export const loadingSelector = (state) => state.game.triviaListState.loading;
 
 const initialGameState = {
   level: "",
   triviaList: [],
-  trivia: { questions: [] },
+  selectedTriviaId: 0,
   currentQuestion: 0,
   title: titles.GAME,
   answers: [],
@@ -40,8 +42,8 @@ const gameReducer = createSlice({
       state.level = action.payload;
     },
     setTrivia(state, action) {
-      const trivia = state.triviaList[action.payload];
-      state.trivia = trivia;
+      // const trivia = state.triviaList[action.payload];
+      state.selectedTriviaId = action.payload;
       state.currentQuestion = 1;
     },
     setTriviaList(state, action) {
@@ -73,7 +75,7 @@ const gameReducer = createSlice({
       const data = action.payload;
       state.triviaListState.loading = false;
       state.triviaListState.error = false;
-      state.triviaList = data[0].games;
+      state.triviaList = data.games;
     });
     builder.addCase(fetchTriviaByLevel.rejected, (state) => {
       state.triviaListState.loading = false;

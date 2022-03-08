@@ -16,12 +16,10 @@ function FinalScore() {
   };
   const getRightAnswers = () => {
     let rightAnswersCounter = 0;
-    trivia.questions.forEach((question, index) => {
-      question.answers.forEach((ans, i) => {
-        if (ans == answers[index] && i == question.rightAnswerPosition) {
-          rightAnswersCounter++;
-        }
-      });
+    trivia?.questions.forEach((question, index) => {
+      if (answers[index] == question.rightAnswerPosition) {
+        rightAnswersCounter++;
+      }
     });
     return rightAnswersCounter;
   };

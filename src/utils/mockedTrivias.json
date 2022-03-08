@@ -1,8 +1,89 @@
 {
   "levels": [
     {
-      "id": "1",
+      "id": "0",
       "level": "Beginner",
+      "games": [
+        {
+          "description": "MOVIE",
+          "questions": [
+            {
+              "description": "What happens with the antagonist at the end of the movie Ghost?",
+              "answers": [
+                "Gets taken by dark spirits",
+                "Regrets from what he did to his friend",
+                "Donates the money he took to charity",
+                "Gets the paycheck from the nuns"
+              ],
+              "rightAnswerPosition": 0,
+              "imageUrl": "https://i.pinimg.com/originals/5b/d4/9a/5bd49aa701879e18ac54a0f0c1a3013a.jpg"
+            },
+            {
+              "description": "Who impersonated the Joker on the last movie of the same name on October of 2019?",
+              "answers": [
+                "Heath Ledger",
+                "Jared Leto",
+                "Jack Nicholson",
+                "Joaquin Phoenix"
+              ],
+              "rightAnswerPosition": 3,
+              "imageUrl": "https://cutewallpaper.org/21/joaquin-phoenix-joker-wallpapers/give-joaquin-phoenix-an-oscar-already-More-Joker-phone-.png"
+            }
+          ]
+        },
+        {
+          "description": "GEOGRAPHY",
+          "questions": [
+            {
+              "description": "What is the name of the actor who impersonated the Joker on the last movie of the same name on October of 2019?",
+              "answers": [
+                "Heath Ledger",
+                "Jared Leto",
+                "Jack Nicholson",
+                "Joaquin Phoenix"
+              ],
+              "rightAnswerPosition": 3,
+              "imageUrl": "https://ichef.bbci.co.uk/news/640/cpsprodpb/1728D/production/_109616849_joker01.jpg"
+            }
+          ]
+        },
+        {
+          "description": "HISTORY",
+          "questions": [
+            {
+              "description": "What is the name of the actor who impersonated the Joker on the last movie of the same name on October of 2019?",
+              "answers": [
+                "Heath Ledger",
+                "Jared Leto",
+                "Jack Nicholson",
+                "Joaquin Phoenix"
+              ],
+              "rightAnswerPosition": 3,
+              "imageUrl": "https://ichef.bbci.co.uk/news/640/cpsprodpb/1728D/production/_109616849_joker01.jpg"
+            }
+          ]
+        },
+        {
+          "description": "VIDEOGAMES",
+          "questions": [
+            {
+              "description": "What is the name of the actor who impersonated the Joker on the last movie of the same name on October of 2019?",
+              "answers": [
+                "Heath Ledger",
+                "Jared Leto",
+                "Jack Nicholson",
+                "Joaquin Phoenix"
+              ],
+              "rightAnswerPosition": 3,
+              "imageUrl": "https://ichef.bbci.co.uk/news/640/cpsprodpb/1728D/production/_109616849_joker01.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "level": "Intermediate",
       "games": [
         {
           "description": "MOVIE",

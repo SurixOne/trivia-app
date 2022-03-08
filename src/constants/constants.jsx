@@ -10,3 +10,5 @@ export const levels = {
   EXPERT: "Expert",
   GODLIKE: "▁▂▄▅▆█ godlike █▆▅▄▂▁",
 };
+
+export const loadingText = "Loading...";

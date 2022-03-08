@@ -16,26 +16,29 @@ function Question() {
   const trivia = useSelector(triviaSelector);
   const currentQuestion = useSelector(questionSelector);
   const totalQuestions = useSelector(totalQuestionsSelector);
-  const [selectedAnswer, setSelectedAnswer] = useState("");
-  const handleAnswerClick = (ans) => {
-    setSelectedAnswer(ans);
+  const [selectedAnswerId, setSelectedAnswerId] = useState("");
+  const handleAnswerClick = (ansId) => {
+    setSelectedAnswerId(ansId);
   };
   const question = trivia.questions[currentQuestion - 1];
   const goBack = () => {
     if (currentQuestion > 0) {
       dispatch(gameActions.prevQuestion());
-      setSelectedAnswer("");
+      setSelectedAnswerId("");
     }
   };
   const goNext = () => {
-    if (selectedAnswer != "" && currentQuestion < totalQuestions) {
-      dispatch(gameActions.answer(selectedAnswer));
+    if (
+      question.answers[selectedAnswerId] != "" &&
+      currentQuestion < totalQuestions
+    ) {
+      dispatch(gameActions.answer(selectedAnswerId));
       dispatch(gameActions.nextQuestion());
-      setSelectedAnswer("");
+      setSelectedAnswerId("");
     }
   };
   const handleBtnClick = () => {
-    dispatch(gameActions.answer(selectedAnswer));
+    dispatch(gameActions.answer(selectedAnswerId));
     dispatch(gameActions.setTitle(titles.SCORE));
   };
   const greenBtnTitle = "Finish";
@@ -50,14 +53,17 @@ function Question() {
           }}
         />
         <div className='question'>{question.description}</div>
-        {question.answers.map((ans) => {
+        {question.answers.map((ans, index) => {
           return (
             <div
               key={ans}
               className={
-                "answer" + (ans == selectedAnswer ? " selected-ans" : "")
+                "answer" +
+                (ans == question.answers[selectedAnswerId]
+                  ? " selected-ans"
+                  : "")
               }
-              onClick={() => handleAnswerClick(ans)}
+              onClick={() => handleAnswerClick(index)}
             >
               {ans}
             </div>
@@ -76,12 +82,13 @@ function Question() {
           )}
         </div>
       </div>
-      {currentQuestion == totalQuestions && selectedAnswer != "" && (
-        <GreenButton
-          greenBtnTitle={greenBtnTitle}
-          handleBtnClick={handleBtnClick}
-        />
-      )}
+      {currentQuestion == totalQuestions &&
+        question.answers[selectedAnswerId] != "" && (
+          <GreenButton
+            greenBtnTitle={greenBtnTitle}
+            handleBtnClick={handleBtnClick}
+          />
+        )}
     </div>
   );
 }
